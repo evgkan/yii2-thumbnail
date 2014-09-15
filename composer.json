@@ -1,0 +1,20 @@
+{
+    "name": "sgdot/yii2-thumbnail",
+    "description": "Yii2 Thumbnail",
+    "authors": [
+        {
+            "name": "Sergei Gulin",
+            "email": "gulin.sergi@ya.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "smottt/wideimage": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "sgdot\\widgets\\": "src/"
+        }
+    }
+}
