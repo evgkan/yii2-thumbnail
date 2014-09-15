@@ -9,8 +9,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
-        "smottt/wideimage": "*"
+        "php": ">=5.4.0"
     },
     "autoload": {
         "psr-4": {
