@@ -10,7 +10,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
-        "smottt/wideimage": "dev-master"
+        "smottt/wideimage": "*"
     },
     "autoload": {
         "psr-4": {
