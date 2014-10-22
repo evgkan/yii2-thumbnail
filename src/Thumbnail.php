@@ -162,4 +162,38 @@ class Thumbnail {
         }
     }
 
+    public static function watermark($img, $water = true) {
+
+        $img = self::imgpath($img);
+        if ($img === false)
+            return false;
+
+        $pathInfo = self::pathinfo_utf($img);
+        $thumbName = md5($img) . '_water.' . $pathInfo['extension'];
+
+        // return self::innerThumb($thumbName, $img, $width, $height, $forceThumb, $water, $fit);
+        $thumbDir = Yii::getAlias('@webroot') . '/' . self::THUMB_DIR;
+        $thumbFullname = $thumbDir . "/" . $thumbName;
+
+        if (!file_exists($thumbFullname) || filemtime($thumbFullname) < filemtime($img)) {
+            self::deleteOldThumbs();
+            try {
+                $image = WideImage::load($img);
+                $watermark = WideImage::load(Yii::getAlias('@webroot') . '/files/watermark.png');
+                $image = $image->merge($watermark, 'right', 'center');
+                /*
+                  $canvas = $image->getCanvas();
+                  $canvas->useFont(Yii::getPathOfAlias('application.fonts') . '/LiberationSerif-Regular.ttf','16');
+                  $canvas->writeText('left+5', 'bottom-5', Yii::app()->request->serverName);
+                 */
+                $image->saveToFile($thumbFullname);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+
+        $webPath = str_replace(Yii::getAlias('@webroot'), '', $thumbFullname);
+
+        return $webPath;
+    }
 }
