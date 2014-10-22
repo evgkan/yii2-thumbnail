@@ -180,7 +180,7 @@ class Thumbnail {
             try {
                 $image = WideImage::load($img);
                 $watermark = WideImage::load(Yii::getAlias('@webroot') . '/files/watermark.png');
-                $image = $image->merge($watermark, 'right', 'center');
+                $image = $image->merge($watermark, 'center', 'center');
                 /*
                   $canvas = $image->getCanvas();
                   $canvas->useFont(Yii::getPathOfAlias('application.fonts') . '/LiberationSerif-Regular.ttf','16');
