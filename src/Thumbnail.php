@@ -14,6 +14,12 @@ class Thumbnail {
     const COUNT_OLD_THUMBS = 5;
     const TIME_OLD_THUMBS = 3000000;
 
+    public static $ignoreFiles = [
+        '.',
+        '..',
+        '.gitignore',
+    ];
+
     public static function imgpath($img, $noImage = self::NOIMAGE) {
         if ($img == "" || $img == NULL)
             return $noImage;
@@ -109,7 +115,7 @@ class Thumbnail {
         $i = 0;
         foreach ($thumb_list as $filename) {
             $full_filename = $thumb_dir . '/' . $filename;
-            if ($filename <> '.' && $filename <> '..' && (time() - filemtime($full_filename)) > self::TIME_OLD_THUMBS) {
+            if (!in_array($filename, self::$ignoreFiles) && (time() - filemtime($full_filename)) > self::TIME_OLD_THUMBS) {
                 unlink($full_filename);
                 $i++;
             }
@@ -196,4 +202,5 @@ class Thumbnail {
 
         return $webPath;
     }
+
 }
