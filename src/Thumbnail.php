@@ -21,8 +21,12 @@ class Thumbnail {
     ];
 
     public static function imgpath($img, $noImage = self::NOIMAGE) {
-        if ($img == "" || $img == NULL)
+        if ($img == "" || $img == NULL) {
             return $noImage;
+        }
+        if (self::isUrl($img)) {
+            return $img;
+        }
 
         $webroot = Yii::getAlias('@webroot');
 
@@ -75,7 +79,7 @@ class Thumbnail {
         $thumbDir = Yii::getAlias('@webroot') . '/' . self::THUMB_DIR;
         $thumbFullname = $thumbDir . "/" . $thumbName;
 
-        if ($forceThumb || !file_exists($thumbFullname) || filemtime($thumbFullname) < filemtime($img)) {
+        if ($forceThumb || !file_exists($thumbFullname) || self::isUrl($img) || filemtime($thumbFullname) < filemtime($img)) {
             self::deleteOldThumbs();
             try {
                 $image = WideImage::load($img);
@@ -201,6 +205,10 @@ class Thumbnail {
         $webPath = str_replace(Yii::getAlias('@webroot'), '', $thumbFullname);
 
         return $webPath;
+    }
+
+    public static function isUrl($img) {
+        return strpos($img, 'http') === 0;
     }
 
 }
