@@ -75,13 +75,13 @@ class Thumbnail extends Component {
      * @param string $img
      * @param array $options
      */
-    protected function innerThumb($thumbName) {
+    protected function innerThumb($thumbName, $img) {
         $thumbDir = Yii::getAlias($this->thumb_dir);
         $thumbFullname = $thumbDir . "/" . $thumbName;
-        if ($this->forceThumb || !file_exists($thumbFullname) || $this->isUrl($this->img) || filemtime($thumbFullname) < filemtime($this->img)) {
+        if ($this->forceThumb || !file_exists($thumbFullname) || $this->isUrl($img) || filemtime($thumbFullname) < filemtime($img)) {
             self::deleteOldThumbs();
             try {
-                $image = WideImage::load($this->img);
+                $image = WideImage::load($img);
                 $this->generateImage($image);
                 $image->saveToFile($thumbFullname);
             } catch (Exception $e) {
@@ -130,7 +130,7 @@ class Thumbnail extends Component {
         }
         $extension = $this->getExtension($img);
         $thumbName = md5($img) . '_' . $this->width . '_' . $this->height . '.' . $extension;
-        return $this->innerThumb($thumbName);
+        return $this->innerThumb($thumbName, $img);
     }
 
     public function __construct($img, $width, $height, $config = array()) {
