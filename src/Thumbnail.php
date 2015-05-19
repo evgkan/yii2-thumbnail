@@ -64,7 +64,7 @@ class Thumbnail extends Component {
         return $image;
     }
 
-    public static function thumb($img, $width, $height, $options) {
+    public static function thumb($img, $width, $height, $options = []) {
         $thumb = new Thumbnail($img, $width, $height, $options);
         return $thumb->getThumb();
     }
