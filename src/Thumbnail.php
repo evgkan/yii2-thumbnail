@@ -44,7 +44,7 @@ class Thumbnail extends Component {
 
     public function imgpath($img) {
         if (empty($img)) {
-            return $this->noImage;
+            $img = $this->noImage;
         }
         if ($this->isUrl($img)) {
             return $img;
@@ -65,7 +65,7 @@ class Thumbnail extends Component {
     }
 
     public static function thumb($img, $width, $height, $options = []) {
-        $thumb = new Thumbnail($img, $width, $height, $options);
+        $thumb = Yii::createObject(self::className(), [$img, $width, $height, $options]);
         return $thumb->getThumb();
     }
 
