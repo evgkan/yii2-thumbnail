@@ -82,8 +82,8 @@ class Thumbnail extends Component {
             self::deleteOldThumbs();
             try {
                 $image = WideImage::load($this->img);
-                $this->generateImage($image);
-                $image->saveToFile($thumbFullname);
+                $new = $this->generateImage($this->img);
+                $new->saveToFile($thumbFullname);
             } catch (Exception $e) {
                 return false;
             }
@@ -140,17 +140,18 @@ class Thumbnail extends Component {
         return parent::__construct($config);
     }
 
-    public function generateImage(&$image) {
-        $image->resize($this->width, $this->height, $this->fit);
+    public function generateImage($img) {
+        $image = WideImage::load($img);
+        $new = $image->resize($this->width, $this->height, $this->fit);
         // Если высота или ширина равны null, то не обрезать изображение
         if ($this->width !== null && $this->height !== null) {
-            $image = $image->crop('center', 'center', $this->width, $this->height);
+            $new = $new->crop('center', 'center', $this->width, $this->height);
         }
         if ($this->water == true) {
             $watermark = WideImage::load(Yii::getAlias($this->watermarkFile));
-            $image = $image->merge($watermark, $this->watermarkLeft, $this->watermarkTop, $this->watermarkOpacity);
+            $new = $new->merge($watermark, $this->watermarkLeft, $this->watermarkTop, $this->watermarkOpacity);
         }
-        return $image;
+        return $new;
     }
 
 }
