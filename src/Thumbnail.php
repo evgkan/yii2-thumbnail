@@ -81,7 +81,7 @@ class Thumbnail extends Component {
         if ($this->forceThumb || !file_exists($thumbFullname) || $this->isUrl($img) || filemtime($thumbFullname) < filemtime($img)) {
             self::deleteOldThumbs();
             try {
-                $new = $this->generateImage($this->img);
+                $new = $this->generateImage($img);
                 $new->saveToFile($thumbFullname);
             } catch (Exception $e) {
                 return false;
