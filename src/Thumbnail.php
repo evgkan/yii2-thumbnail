@@ -58,7 +58,7 @@ class Thumbnail extends Component {
             $image = $webroot . "/" . $img;
         }
 
-        if (!file_exists($image)) {
+        if (!is_file($image)) {
             return false;
         }
         return $image;
